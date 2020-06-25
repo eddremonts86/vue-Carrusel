@@ -8,19 +8,27 @@
               <div
                 class="card-carousel-cards"
                 :style="{
-              transform: 'translateX' + '(' + currentOffset + 'px' + ')'
-            }"
+                  transform: 'translateX' + '(' + currentOffset + 'px' + ')'
+                }"
               >
                 <div
-                  :class="currentItem==key ? 'card-carousel--card active' : 'card-carousel--card'"
+                  :class="
+                    currentItem == key
+                      ? 'card-carousel--card active'
+                      : 'card-carousel--card'
+                  "
                   v-for="(item, key) in items"
                   :key="key"
-                  @click="changeImage(item.id , item)"
                 >
-                  <img :src="item.img" :width="paginationFactor" height="350px" />
+                  <img
+                    :src="item.img"
+                    :width="paginationFactor"
+                    height="350px"
+                    @click="changeImage(item.id, item)"
+                  />
                   <div class="img_text">
-                    <h4>{{item.subhead}}</h4>
-                    <h2>{{item.head}}</h2>
+                    <h4>{{ item.id }} - {{ item.subhead }}</h4>
+                    <h2>{{ item.head }}</h2>
                   </div>
                 </div>
               </div>
@@ -36,14 +44,17 @@
             ></div>
           </div>
           <div class="arrow_container">
-            <div class="card-carousel--nav__right" @click="moveCarousel(1)" :disabled="atEndOfList"></div>
+            <div
+              class="card-carousel--nav__right"
+              @click="moveCarousel(1)"
+              :disabled="atEndOfList"
+            ></div>
           </div>
           <div class="arrow_space"></div>
-          <div class="arrow_item">{{currentItem + 1}}/{{items.length}}</div>
+          <div class="arrow_item">{{ currentItem + 1 }}/{{ items.length }}</div>
         </div>
       </div>
     </sequential-entrance>
-    <div class="popup"></div>
   </div>
 </template>
 <script>
@@ -135,7 +146,7 @@ export default {
     atEndOfList() {
       return (
         this.currentOffset <=
-        this.paginationFactor * -1 * (this.items.length - this.windowSize)
+        this.paginationFactor * -1 * (this.items.length - 1)
       );
     },
     atHeadOfList() {
@@ -148,18 +159,18 @@ export default {
   methods: {
     ...mapActions(["fetchImageObj"]),
     moveCarousel(direction) {
-      // Find a more elegant way to express the :style. consider using props to make it truly generic
       if (direction === 1 && !this.atEndOfList) {
         this.currentOffset -= this.paginationFactor;
+        this.currentItem += 1;
       } else if (direction === -1 && !this.atHeadOfList) {
         this.currentOffset += this.paginationFactor;
+        this.currentItem -= 1;
       }
     },
-    changeImage(key, item) {
-      this.fetchImageObj(item);
-      this.currentItem = key;
+    changeImage(key) {
+      this.currentItem = key - 1;
       if (key != 0) {
-        this.currentOffset = -(key * this.paginationFactor);
+        this.currentOffset = -(this.currentItem * this.paginationFactor);
       } else {
         this.currentOffset = 0;
       }
@@ -168,14 +179,18 @@ export default {
       let vue = this;
       if (playIt) {
         setInterval(function() {
-          if (vue.currentItem == vue.items.length - 1) {
-            vue.currentItem = 0;
+          if (vue.currentItem != vue.items.length - 1) {
+            vue.moveCarousel(1);
           } else {
-            vue.currentItem += 1;
+            vue.changeImage(1, vue.items[1]);
           }
-          vue.changeImage(vue.currentItem, vue.items[vue.currentItem]);
-        }, 4000);
+        }, 5000);
       }
+    }
+  },
+  watch: {
+    currentItem(ítemPosition) {
+      this.fetchImageObj(this.items[ítemPosition]);
     }
   }
 };
@@ -216,7 +231,7 @@ body {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 700px;
+  width: calc(275px * 2);
 }
 
 .card-carousel--overflow-container {
@@ -430,16 +445,42 @@ h1 {
     margin: 25px 0;
     border-bottom: 2px solid #ffffff80;
   }
-} 
+}
 
-.popup{
+.popup {
   width: 100vw;
   height: 100vh;
-  content: '';
+  content: "";
   background: black;
   margin-top: -200px;
   margin-bottom: -200px;
 }
 
+
+@media (max-width: 1440px) {
+  .card-carousel {
+    width: calc(275px * 5);
+  }
+}
+@media (max-width: 1980px) {
+  .card-carousel {
+    width: calc(275px * 4);
+  }
+}
+@media (max-width: 1024px) {
+  .card-carousel {
+    width: calc(275px * 3);
+  }
+} 
+@media (max-width: 768px) {
+  .card-carousel {
+    width: calc(275px * 2);
+  }
+}
+@media (max-width: 411px) {
+  .card-carousel {
+    width: calc(275px * 1);
+  }
+}
 /*# sourceMappingURL=carrusel.css.map */
 </style>

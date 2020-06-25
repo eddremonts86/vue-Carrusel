@@ -1,7 +1,7 @@
 <template>
   <div :key="getImageObj.id">
     <img :src="getImageObj.full_img" class="bg" />
-   </div>
+  </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -13,11 +13,11 @@ export default {
   data() {
     return {};
   },
-  /* watch: {
+  watch: {
     getImageObj(newOBJ) {
       console.log(newOBJ.id);
     }
-  } */
+  }
 };
 </script >
 <style lang="scss" scoped>
@@ -31,7 +31,7 @@ export default {
   transition: opacity 500ms;
 }
 
-.bg:target{
+.bg:target {
   visibility: visible;
   opacity: 1;
 }
