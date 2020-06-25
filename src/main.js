@@ -4,6 +4,12 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 
+
+import SequentialEntrance from 'vue-sequential-entrance'
+import 'vue-sequential-entrance/vue-sequential-entrance.css'
+Vue.use(SequentialEntrance);
+import "./assets/css/style.scss"; 
+
 Vue.config.productionTip = false;
 
 new Vue({

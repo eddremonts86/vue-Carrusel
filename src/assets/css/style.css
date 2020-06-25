@@ -1,0 +1,30 @@
+body {
+  background: url(http://images.eddremonts.dk/Spiderman/4_4k.jpg) no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+
+body #app {
+  height: 100vh;
+  width: 100vw;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+body #app #nav {
+  padding: 30px;
+}
+
+body #app #nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+body #app #nav a.router-link-exact-active {
+  color: #42b983;
+}
+/*# sourceMappingURL=style.css.map */
